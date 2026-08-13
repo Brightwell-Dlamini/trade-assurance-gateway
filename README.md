@@ -1,38 +1,40 @@
 # Trade Assurance Gateway
 
-**MVP Prototype for the AfCFTA Digital Innovation Challenge (2nd Edition)**  
-**Version 0.2.0**
+**Fully working MVP for the AfCFTA Digital Innovation Challenge (2nd Edition)**  
+**Version 1.0.0**
 
-Theme: *Realizing the AfCFTA for MSMEs through Digital Solutions*
+**Theme:** Realizing the AfCFTA for MSMEs through Digital Solutions
 
-## What this is
+## Live Demo Flow (2 minutes)
 
-A functional demonstration of a digital platform that helps African Micro, Small and Medium Enterprises (MSMEs) complete cross-border trade more safely and efficiently.
+1. Open http://127.0.0.1:8000
+2. Click **Load Full Sample (2 items)**
+3. Download **Commercial Invoice** and **Packing List** PDFs
+4. Click **Simulate Escrow Deposit (PAPSS)**
+5. Mark as **Shipped** → **Simulate Customs Clearance** → **Release Funds**
+6. View full audit trail and compliance checklist
 
-It adapts proven approaches from developed markets (national single windows, B2B escrow/trade assurance, regulatory intelligence) to the African context, with particular attention to:
+## What it solves
 
-- Local-currency settlement readiness (PAPSS structure)
-- Mobile-first / low-bandwidth usability
-- Automated trade document generation
-- Conditional release of funds against trade milestones
-- Persistent storage
+African MSMEs face high cross-border payment risk, complex documentation, and information asymmetry. This platform provides:
 
-## Current MVP Features (v0.2.0)
+- Automated trade documents (Invoice + Packing List)
+- Conditional payment assurance (escrow) designed for PAPSS local-currency settlement
+- Corridor-aware compliance checklist
+- Full transaction history for trust and audit
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Create trade transaction | Working | Multi-item support |
-| Auto-generate Commercial Invoice (PDF) | Working | ReportLab |
-| Auto-generate Packing List (PDF) | Working | Includes weight & package estimates |
-| Basic compliance checklist | Working | Corridor-aware template |
-| Simulated escrow flow | Working | Deposit → Ship → Customs Clear → Release |
-| Transaction history / audit trail | Working | Full event log |
-| Responsive web interface | Working | Suitable for mobile demonstration |
-| SQLite persistence | Working | Data survives server restarts |
-| Real PAPSS integration | Planned | Requires official API credentials |
-| National single-window connectors | Planned | Country-by-country |
-| AI HS-code & rule suggestion | Planned | |
-| USSD / WhatsApp channel | Planned | Critical for last-mile MSMEs |
+## Features
+
+| Feature | Status |
+|---------|--------|
+| Multi-item trade creation | Working |
+| Commercial Invoice PDF | Working |
+| Packing List PDF | Working |
+| Simulated PAPSS-ready escrow | Working |
+| Compliance checklist | Working |
+| SQLite persistence | Working |
+| Trade listing dashboard | Working |
+| Responsive mobile-first UI | Working |
 
 ## Quick Start
 
@@ -43,66 +45,40 @@ pip install -r requirements.txt
 python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Then open: http://127.0.0.1:8000
-
-API documentation (Swagger): http://127.0.0.1:8000/docs
-
-## Typical Demo Flow
-
-1. Open the web interface.
-2. Click **Load Full Sample** (or create your own trade).
-3. Download the generated **Commercial Invoice** PDF.
-4. Download the generated **Packing List** PDF.
-5. Click **Simulate Escrow Deposit (PAPSS)**.
-6. Mark as **Shipped**.
-7. Simulate **Customs Clearance**.
-8. **Release Funds to Seller**.
-
-You will see the full audit trail and status changes at each step. Data is stored in SQLite.
+Open: http://127.0.0.1:8000  
+API docs: http://127.0.0.1:8000/docs
 
 ## Project Structure
 
 ```
 trade-assurance-gateway/
-├── backend/
-│   └── main.py              # FastAPI application (v0.2.0)
-├── templates/
-│   └── index.html           # Frontend interface
-├── data/                    # SQLite database (created at runtime)
-├── generated_docs/          # Auto-generated PDFs (created at runtime)
+├── backend/main.py          # FastAPI application
+├── templates/index.html     # Frontend
+├── docs/
+│   ├── ARCHITECTURE.md
+│   └── PITCH_NOTES.md
+├── data/                    # SQLite (runtime)
+├── generated_docs/          # PDFs (runtime)
 ├── requirements.txt
 └── README.md
 ```
 
-## Architecture Alignment
+## Architecture
 
-This MVP implements the first three modules described in the technical architecture:
+See `docs/ARCHITECTURE.md`.
 
-1. **Trade Document Engine** – Commercial Invoice + Packing List generation
-2. **Escrow & Settlement Layer** – Milestone-based release logic (ready for PAPSS)
-3. **Compliance Co-Pilot** – Initial checklist generation
+## Pitch & Impact Notes
 
-Identity, full logistics visibility, and marketplace matching are designed but not yet implemented.
+See `docs/PITCH_NOTES.md`.
 
-## Important Disclaimers
+## Important Disclaimer
 
-- This is a **prototype for demonstration and further development**.
-- Escrow, customs, and payment steps are **simulated**.
-- No real money is moved and no real customs declarations are filed.
-- Production use requires proper licensing, bank partnerships, PAPSS onboarding, data protection compliance, and formal agreements with national authorities.
+This is a demonstration prototype. Escrow, customs and payment steps are simulated. Production deployment requires PAPSS onboarding, bank partnerships, data-protection compliance and formal agreements with national authorities.
 
-## Next Development Priorities
+## Challenge Details
 
-1. Basic user accounts and role separation (seller / buyer).
-2. Integrate a real or sandbox payment rail (starting with mobile money simulation).
-3. Build a lightweight USSD/WhatsApp interface.
-4. AI-assisted HS code suggestion and regulatory translation.
-5. Prepare a short pitch deck and impact metrics dashboard for the AfCFTA Challenge submission.
-
-## Contact / Challenge Context
-
-- Challenge deadline: **4 September 2026**
+- Deadline: 4 September 2026
 - Official site: https://au-afcfta.org
 - Enquiries: DT@au-afcfta.org
 
-Built as a practical starting point for an AfCFTA Digital Innovation Challenge application.
+Built for the AfCFTA Digital Innovation Challenge 2nd Edition.
