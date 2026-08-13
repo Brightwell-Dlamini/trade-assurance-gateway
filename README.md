@@ -1,42 +1,19 @@
 # Trade Assurance Gateway
 
-**Fully working MVP for the AfCFTA Digital Innovation Challenge (2nd Edition)**  
-**Version 1.0.0**
+**Institutional-grade digital trade facilitation platform**  
+Version 1.1.0 · AfCFTA Digital Innovation Challenge
 
-**Theme:** Realizing the AfCFTA for MSMEs through Digital Solutions
+## Overview
 
-## Live Demo Flow (2 minutes)
+Trade Assurance Gateway is a production-oriented prototype that enables African MSMEs to execute cross-border trade with institutional-grade documentation, conditional payment assurance, and full auditability.
 
-1. Open http://127.0.0.1:8000
-2. Click **Load Full Sample (2 items)**
-3. Download **Commercial Invoice** and **Packing List** PDFs
-4. Click **Simulate Escrow Deposit (PAPSS)**
-5. Mark as **Shipped** → **Simulate Customs Clearance** → **Release Funds**
-6. View full audit trail and compliance checklist
+It combines:
+- Automated generation of Commercial Invoices and Packing Lists
+- Milestone-based escrow designed for PAPSS local-currency settlement
+- Corridor-aware compliance guidance
+- Complete transaction history
 
-## What it solves
-
-African MSMEs face high cross-border payment risk, complex documentation, and information asymmetry. This platform provides:
-
-- Automated trade documents (Invoice + Packing List)
-- Conditional payment assurance (escrow) designed for PAPSS local-currency settlement
-- Corridor-aware compliance checklist
-- Full transaction history for trust and audit
-
-## Features
-
-| Feature | Status |
-|---------|--------|
-| Multi-item trade creation | Working |
-| Commercial Invoice PDF | Working |
-| Packing List PDF | Working |
-| Simulated PAPSS-ready escrow | Working |
-| Compliance checklist | Working |
-| SQLite persistence | Working |
-| Trade listing dashboard | Working |
-| Responsive mobile-first UI | Working |
-
-## Quick Start
+## Live Demonstration (2–3 minutes)
 
 ```bash
 git clone https://github.com/Brightwell-Dlamini/trade-assurance-gateway.git
@@ -45,40 +22,29 @@ pip install -r requirements.txt
 python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Open: http://127.0.0.1:8000  
-API docs: http://127.0.0.1:8000/docs
+Open http://127.0.0.1:8000
 
-## Project Structure
-
-```
-trade-assurance-gateway/
-├── backend/main.py          # FastAPI application
-├── templates/index.html     # Frontend
-├── docs/
-│   ├── ARCHITECTURE.md
-│   └── PITCH_NOTES.md
-├── data/                    # SQLite (runtime)
-├── generated_docs/          # PDFs (runtime)
-├── requirements.txt
-└── README.md
-```
+1. Click **Load Institutional Sample**
+2. Download Commercial Invoice and Packing List
+3. Execute: Place Funds in Escrow → Confirm Shipment → Confirm Customs Clearance → Release Funds
+4. Review the audit trail and compliance checklist
 
 ## Architecture
 
-See `docs/ARCHITECTURE.md`.
+See `docs/ARCHITECTURE.md` and `docs/PITCH_NOTES.md`.
 
-## Pitch & Impact Notes
+## Stack
 
-See `docs/PITCH_NOTES.md`.
+- FastAPI + Pydantic + aiosqlite + ReportLab
+- Clean state-machine design for trade lifecycle
+- Responsive institutional UI
 
-## Important Disclaimer
+## Disclaimer
 
-This is a demonstration prototype. Escrow, customs and payment steps are simulated. Production deployment requires PAPSS onboarding, bank partnerships, data-protection compliance and formal agreements with national authorities.
+This is a high-fidelity demonstration system. Escrow and customs events are simulated. Live production use requires PAPSS onboarding, banking partnerships, and national single-window connectivity.
 
-## Challenge Details
+## Challenge Context
 
+- AfCFTA Digital Innovation Challenge – 2nd Edition
 - Deadline: 4 September 2026
-- Official site: https://au-afcfta.org
-- Enquiries: DT@au-afcfta.org
-
-Built for the AfCFTA Digital Innovation Challenge 2nd Edition.
+- Official portal: https://au-afcfta.org
