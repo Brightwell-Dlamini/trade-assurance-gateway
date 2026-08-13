@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trade Assurance Gateway | AfCFTA MVP</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --accent: #2b6cb0;
+      --success: #276749;
+      --warning: #c05621;
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #718096;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+    header p { opacity: 0.9; font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem; }
+    .card {
+      background: var(--card);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.4rem;
+    }
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--muted); }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    button:hover { background: var(--primary); }
+    button.secondary { background: #4a5568; }
+    button.success { background: var(--success); }
+    button.warning { background: var(--warning); }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    .status {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-draft { background: #e2e8f0; color: #4a5568; }
+    .status-funded { background: #c6f6d5; color: #276749; }
+    .status-shipped { background: #bee3f8; color: #2b6cb0; }
+    .status-customs_cleared { background: #fefcbf; color: #975a16; }
+    .status-settled { background: #c6f6d5; color: #22543d; }
+    .status-disputed { background: #fed7d7; color: #9b2c2c; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 0.5rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    th { background: #edf2f7; font-size: 0.8rem; }
+    .muted { color: var(--muted); font-size: 0.85rem; }
+    .alert {
+      background: #ebf8ff;
+      border-left: 4px solid var(--accent);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+    }
+    #result { display: none; }
+    .history-item { font-size: 0.85rem; padding: 0.35rem 0; border-bottom: 1px dashed #e2e8f0; }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Trade Assurance Gateway</h1>
+    <p>Cross-border trade facilitation for African MSMEs</p>
+    <div class="badge">AfCFTA Digital Innovation Challenge • MVP Prototype</div>
+  </header>
+
+  <main>
+    <div class="alert">
+      <strong>Demo mode:</strong> This is a functional prototype. Escrow and customs steps are simulated.
+      Real PAPSS settlement and national customs integrations require production credentials.
+    </div>
+
+    <!-- Create Trade -->
+    <div class="card" id="create-section">
+      <h2>1. Create a Trade Transaction</h2>
+      <form id="trade-form">
+        <div class="grid grid-2">
+          <div>
+            <label>Seller Name</label>
+            <input name="seller_name" value="Kente Weavers Cooperative" required />
+            <label>Seller Country</label>
+            <input name="seller_country" value="Ghana" required />
+          </div>
+          <div>
+            <label>Buyer Name</label>
+            <input name="buyer_name" value="Nairobi Fashion Hub Ltd" required />
+            <label>Buyer Country</label>
+            <input name="buyer_country" value="Kenya" required />
+          </div>
+        </div>
+        <div class="grid grid-2">
+          <div>
+            <label>Origin Country</label>
+            <input name="origin" value="Ghana" required />
+          </div>
+          <div>
+            <label>Destination Country</label>
+            <input name="destination" value="Kenya" required />
+          </div>
+        </div>
+        <label>Product Description</label>
+        <input name="product" value="Handwoven Kente cloth (traditional design)" required />
+        <div class="grid grid-2">
+          <div>
+            <label>HS Code (optional)</label>
+            <input name="hs_code" value="5805.00" />
+          </div>
+          <div>
+            <label>Quantity</label>
+            <input name="quantity" type="number" value="200" step="0.01" required />
+          </div>
+        </div>
+        <div class="grid grid-2">
+          <div>
+            <label>Unit Price (USD)</label>
+            <input name="unit_price" type="number" value="18.50" step="0.01" required />
+          </div>
+          <div>
+            <label>Incoterms</label>
+            <select name="incoterms">
+              <option>FOB</option>
+              <option selected>CIF</option>
+              <option>EXW</option>
+              <option>DDP</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit">Create Trade & Generate Invoice</button>
+          <button type="button" class="secondary" onclick="loadSample()">Load Full Sample</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Trade Result -->
+    <div class="card" id="result">
+      <h2>2. Trade Details</h2>
+      <div id="trade-summary"></div>
+      <div class="actions" id="trade-actions"></div>
+      <h3 style="margin-top:1.25rem;font-size:1rem;color:var(--primary)">Compliance Checklist</h3>
+      <div id="checklist"></div>
+      <h3 style="margin-top:1.25rem;font-size:1rem;color:var(--primary)">Transaction History</h3>
+      <div id="history"></div>
+    </div>
+
+    <!-- How it works -->
+    <div class="card">
+      <h2>How this MVP maps to the architecture</h2>
+      <ul style="padding-left:1.25rem;font-size:0.9rem;">
+        <li><strong>Document Engine</strong> – Auto-generates Commercial Invoice PDF</li>
+        <li><strong>Escrow Layer</strong> – Simulated deposit → ship → customs clear → release flow (PAPSS-ready structure)</li>
+        <li><strong>Compliance Co-Pilot</strong> – Basic checklist based on corridor</li>
+        <li><strong>Mobile-first</strong> – Responsive interface suitable for smartphone use</li>
+      </ul>
+      <p class="muted" style="margin-top:0.75rem;">
+        Next development steps: real PAPSS API integration, national single-window connectors,
+        AI HS-code suggestion, USSD/WhatsApp channel, and multi-item support.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    Trade Assurance Gateway • Built for the AfCFTA Digital Innovation Challenge 2nd Edition<br />
+    Prototype only – not for live commercial transactions
+  </footer>
+
+  <script>
+    const API = "";  // same origin
+
+    async function loadSample() {
+      const res = await fetch(API + "/api/demo/sample", { method: "GET" });
+      const trade = await res.json();
+      showTrade(trade);
+    }
+
+    document.getElementById("trade-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const body = {
+        seller: {
+          name: fd.get("seller_name"),
+          country: fd.get("seller_country")
+        },
+        buyer: {
+          name: fd.get("buyer_name"),
+          country: fd.get("buyer_country")
+        },
+        items: [{
+          description: fd.get("product"),
+          hs_code: fd.get("hs_code") || null,
+          quantity: parseFloat(fd.get("quantity")),
+          unit: "units",
+          unit_price: parseFloat(fd.get("unit_price")),
+          currency: "USD"
+        }],
+        origin_country: fd.get("origin"),
+        destination_country: fd.get("destination"),
+        incoterms: fd.get("incoterms"),
+        payment_terms: "Escrow – release on customs clearance"
+      };
+
+      const res = await fetch(API + "/api/trades", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      const trade = await res.json();
+      showTrade(trade);
+    });
+
+    function statusClass(status) {
+      return "status status-" + status.replace(/\s+/g, "_");
+    }
+
+    function showTrade(trade) {
+      document.getElementById("result").style.display = "block";
+      const summary = document.getElementById("trade-summary");
+      summary.innerHTML = `
+        <p><strong>Trade ID:</strong> ${trade.id}</p>
+        <p><strong>Status:</strong> <span class="${statusClass(trade.status)}">${trade.status}</span></p>
+        <p><strong>Seller:</strong> ${trade.seller.name} (${trade.seller.country})</p>
+        <p><strong>Buyer:</strong> ${trade.buyer.name} (${trade.buyer.country})</p>
+        <p><strong>Route:</strong> ${trade.origin_country} → ${trade.destination_country}</p>
+        <p><strong>Total:</strong> ${trade.total_amount.toFixed(2)} ${trade.currency}</p>
+        <p><strong>Escrow Balance:</strong> ${trade.escrow_balance.toFixed(2)} ${trade.currency}</p>
+        <p class="muted">Created: ${new Date(trade.created_at).toLocaleString()}</p>
+      `;
+
+      // Actions based on status
+      const actions = document.getElementById("trade-actions");
+      let buttons = `
+        <a href="/api/trades/${trade.id}/documents/invoice" target="_blank">
+          <button type="button">Download Commercial Invoice (PDF)</button>
+        </a>
+      `;
+      if (["draft", "awaiting_payment"].includes(trade.status)) {
+        buttons += `<button class="success" onclick="doEscrow('${trade.id}', 'deposit')">Simulate Escrow Deposit (PAPSS)</button>`;
+      }
+      if (trade.status === "funded") {
+        buttons += `<button onclick="doEscrow('${trade.id}', 'ship')">Mark as Shipped</button>`;
+      }
+      if (["shipped", "funded"].includes(trade.status)) {
+        buttons += `<button class="warning" onclick="doEscrow('${trade.id}', 'customs_clear')">Simulate Customs Clearance</button>`;
+      }
+      if (["customs_cleared", "delivered"].includes(trade.status)) {
+        buttons += `<button class="success" onclick="doEscrow('${trade.id}', 'release')">Release Funds to Seller</button>`;
+      }
+      actions.innerHTML = buttons;
+
+      // Checklist
+      const cl = document.getElementById("checklist");
+      if (trade.compliance_checklist) {
+        cl.innerHTML = "<ul style='padding-left:1.2rem;font-size:0.9rem;'>" +
+          trade.compliance_checklist.map(c =>
+            `<li>${c.item} – <em>${c.status}</em>${c.required ? " (required)" : ""}</li>`
+          ).join("") + "</ul>";
+      }
+
+      // History
+      const hist = document.getElementById("history");
+      hist.innerHTML = trade.history.map(h =>
+        `<div class="history-item"><strong>${h.event}</strong> – ${new Date(h.timestamp).toLocaleString()}
+         ${h.notes ? `<br/><span class="muted">${h.notes}</span>` : ""}
+         ${h.amount ? `<br/><span class="muted">Amount: ${h.amount}</span>` : ""}</div>`
+      ).join("");
+
+      document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function doEscrow(tradeId, action) {
+      const res = await fetch(API + `/api/trades/${tradeId}/escrow`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.detail || "Action failed");
+        return;
+      }
+      const trade = await res.json();
+      showTrade(trade);
+    }
+  </script>
+</body>
+</html>
